@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+    }
+    #demo {
+      position: fixed;
+      right: 0px;
+      background: #f1f1f1;
+      padding: 5px;
+      border-radius: 3px;
+      box-shadow: 1px 1px 3px #ddd;
+    }
+    section {
+      width: 80vw;
+      height: 100vh;
+    }
+    #section-one{ background: red; }
+    #section-two{ background: green; }
+    #section-three{ background: blue; }
+    #section-four{ background: yellow;}
+  </style>
+</head>
+<body>
+
+ <strong id="demo"></strong>
+ <section id="wrapper">
+    <section id="section-one"></section>
+    <section id="section-two"></section>
+    <section id="section-three"></section>
+    <section id="section-four"></section>
+ </section>
+
+  
+
+  <script>
+
+    String.prototype.trimLeft = function(charlist) {
+      if (charlist === undefined)
+        charlist = "\s";
+      return this.replace(new RegExp("^[" + charlist + "]+"), "");
+    };
+
+
+    let demo = document.getElementById("demo");
+    let wrapper = document.getElementById("wrapper");
+    let section = wrapper.getElementsByTagName("section");
+    let sectionArr = [].slice.call(section);
+    let sectionIdArr = [];
+    sectionArr.map((singleSection) => {
+      sectionIdArr.push(singleSection.id);
+    });
+
+    let currentPosition = window.location.hash ? sectionIdArr.indexOf(window.location.hash.trimLeft("#")) : 0;
+
+    window.onmousewheel = function(e) {
+      if(e.deltaY < 0 ) {
+        if(currentPosition != 0) {
+          currentPosition--;
+        }
+        demo.innerHTML = "you are going to bottom";
+      } 
+      if (e.deltaY > 0 ) {
+        if(currentPosition < sectionIdArr.length - 1) {
+          currentPosition++;
+        }
+        demo.innerHTML = "you are going to bottom";
+      }
+      console.log(currentPosition);
+      window.location.hash = section[currentPosition].id;  
+    }
+  </script>
+</body>
+</html>
